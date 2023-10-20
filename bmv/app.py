@@ -1,9 +1,7 @@
 
 import os
 import click
-import requests
 from dotenv import load_dotenv
-import pprint
 
 load_dotenv()
 
