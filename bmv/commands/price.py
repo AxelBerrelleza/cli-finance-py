@@ -1,12 +1,11 @@
 import click
 import requests
-import pprint
-from app import cli, endpoints
+from app import cli, endpoints, CliTable
 
 @cli.command(help='Request current prices')
 @click.argument('symbols', nargs=-1)
-def price(symbols):
-    
+@click.pass_context
+def price(context, symbols):
     if len(symbols) == 0:
         raise click.BadArgumentUsage('Please provide at least one symbol') 
 
@@ -15,4 +14,21 @@ def price(symbols):
     response = requests.get(url)
     response.raise_for_status()
 
-    pprint.pprint(response.json())
+    table = CliTable()
+    table.headers = [
+        'Precio',
+        'Porcentaje',
+        'Variacion ($)',
+        'DT',
+    ]
+    aux = response.json()['BMV']
+    fila: list = [[
+        str(aux['ultimo']),
+        str(aux['cambio%']),
+        str(aux['cambio$']),
+        str(aux['tiempo']),
+    ]]
+    
+    table.rows = fila
+
+    context.obj.process(table)
