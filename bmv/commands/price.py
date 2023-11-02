@@ -9,26 +9,26 @@ def price(context, symbols):
     if len(symbols) == 0:
         raise click.BadArgumentUsage('Please provide at least one symbol') 
 
-    url = endpoints["prices"] + symbols[0]
-
-    response = requests.get(url)
-    response.raise_for_status()
-
     table = CliTable()
     table.headers = [
         'Precio',
         'Porcentaje',
         'Variacion ($)',
-        'DT',
+        'Fecha y Hora',
     ]
-    aux = response.json()['BMV']
-    fila: list = [[
-        str(aux['ultimo']),
-        str(aux['cambio%']),
-        str(aux['cambio$']),
-        str(aux['tiempo']),
-    ]]
-    
-    table.rows = fila
+    respuestas: list = []
+    for symbol in symbols:
+        url = endpoints["prices"] + symbol
+        response = requests.get(url)
+        response.raise_for_status()
+        aux = response.json()['BMV']
+        respuestas.append([
+            str(aux['ultimo']),
+            str(aux['cambio%']),
+            str(aux['cambio$']),
+            str(aux['tiempo']),
+        ])
+
+    table.rows = respuestas
 
     context.obj.process(table)
