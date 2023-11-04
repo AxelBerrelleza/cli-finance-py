@@ -4,6 +4,7 @@ import click
 from dotenv import load_dotenv
 from rich import print as rprint
 from rich.table import Table, Column
+from outputs import OutputConsoleTable
 
 load_dotenv()
 
@@ -28,34 +29,14 @@ endpoints: dict = {
 def cli(context):
     context.obj = AppContext()
 
-class CliTable:
-    headers: list
-    rows: list
-
 class AppContext:
-    def process(self, operation: CliTable | None = None):
+    def process(self, operation: OutputConsoleTable | None = None):
         if operation is None:
             pass
         else:
-            # rows: list = [
-            #     {'cambio$': "0.02",
-            #     'cambio%': "0.08",
-            #     'ppp': "0.0",
-            #     'tiempo': '2023-10-31 11:58:00',
-            #     'ultimo': "26.6"},
-            #     {'cambio$': "0.02",
-            #     'cambio%': "0.08",
-            #     'ppp': "0.0",
-            #     'tiempo': '2023-10-31 11:58:00',
-            #     'ultimo': "26.6"}
-            # ]
-
-            rows = operation.rows
-
             table = Table(*operation.headers)
             table.grid()
-            for row in rows:
-                # table.add_row(*list(row.values()))
+            for row in operation.rows:
                 table.add_row(*row)
             
             rprint(table)

@@ -1,6 +1,7 @@
 import click
 import requests
-from app import cli, endpoints, CliTable
+from app import cli, endpoints
+from outputs import OutputConsoleTable
 
 @cli.command(help='Request current prices')
 @click.argument('symbols', nargs=-1)
@@ -9,7 +10,7 @@ def price(context, symbols):
     if len(symbols) == 0:
         raise click.BadArgumentUsage('Please provide at least one symbol') 
 
-    table = CliTable()
+    table = OutputConsoleTable()
     table.headers = [
         'Precio',
         'Porcentaje',
