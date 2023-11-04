@@ -1,13 +1,31 @@
 import click
 import requests
-import pprint
 from app import cli, endpoints
+from outputs import OutputConsoleTable
 
 @cli.command(help='gets the most recent dividend')
 @click.argument('symbol', type=click.STRING)
-def dividend(symbol):
+@click.pass_context
+def dividend(context, symbol):
     url = endpoints['dividend'] + symbol
-
     response = requests.get(url)
     response.raise_for_status()
-    pprint.pprint(response.json())
+
+    table = OutputConsoleTable()
+    table.headers = [
+        'Date',
+        'Amount',
+        'Type',
+    ]
+    auxRows: list = []
+
+    data: dict = response.json()
+    for key, value in data['historico'].items():
+        auxRows.append([
+            key,
+            str(value['pago']),
+            value['tipo'],
+        ])
+
+    table.rows = auxRows
+    context.obj.process(table)
