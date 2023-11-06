@@ -12,24 +12,29 @@ def price(context, symbols):
 
     table = OutputConsoleTable()
     table.headers = [
-        'Precio',
-        'Porcentaje',
-        'Variacion ($)',
-        'Fecha y Hora',
+        'Symbol',
+        'Price',
+        'Rate',
+        'Change',
+        'Datetime',
     ]
     respuestas: list = []
     for symbol in symbols:
         url = endpoints["prices"] + symbol
         response = requests.get(url)
         response.raise_for_status()
+        
         aux = response.json()['BMV']
+        color = 'green' if aux['cambio%'] >= 0 else 'red'
+        percentageWithFormat = '[%s]%s' % (color, str(aux['cambio%']) + '%')
+        changeWithFormat = '[%s]%s$' % (color, aux['cambio$'])
         respuestas.append([
-            str(aux['ultimo']),
-            str(aux['cambio%']),
-            str(aux['cambio$']),
-            str(aux['tiempo']),
+            symbol,
+            str(aux['ultimo']) + '$',
+            percentageWithFormat,
+            changeWithFormat,
+            aux['tiempo'],
         ])
 
     table.rows = respuestas
-
     context.obj.process(table)
