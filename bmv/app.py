@@ -22,6 +22,7 @@ endpoints: dict = {
     'prices': 'https://api.databursatil.com/v1/precios?token=' + API_TOKEN + '&bolsa=BMV&emisora_serie=',
     'dividend': 'https://api.databursatil.com/v1/dividendos?token=' + API_TOKEN + '&emisora_serie=',
     'credits': 'https://api.databursatil.com/v1/creditos?token=' + API_TOKEN,
+    'filter': 'https://api.databursatil.com/v1/emisoras?token=' + API_TOKEN + '&mercado=%s&letra=%s',
 }
 
 @click.group(help='To request in the Mexican stock exchange')
