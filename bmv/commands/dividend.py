@@ -3,7 +3,7 @@ import requests
 from app import cli, endpoints
 from outputs import OutputConsoleTable
 
-@cli.command(help='gets the most recent dividend')
+@cli.command(help='Gets info about the last dividends of a symbol')
 @click.argument('symbol', type=click.STRING)
 @click.pass_context
 def dividend(context, symbol):

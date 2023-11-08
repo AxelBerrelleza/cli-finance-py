@@ -1,8 +1,8 @@
 import requests
-from app import cli, endpoints
 from rich import print as rprint
+from app import cli, endpoints
 
-@cli.command("api-credits")
+@cli.command("api-credits", help='Ask for the remaining API credits')
 def api_credits():
     url = endpoints['credits']
     response = requests.get(url)
