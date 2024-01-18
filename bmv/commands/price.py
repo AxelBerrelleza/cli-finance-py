@@ -5,10 +5,15 @@ from outputs import OutputConsoleTable
 
 @cli.command(help='Request current prices')
 @click.argument('symbols', nargs=-1)
+@click.option('--watchlist', type=click.Path(exists=True), help='json array of symbols')
 @click.pass_context
-def price(context, symbols):
-    if len(symbols) == 0:
+def price(context, watchlist, symbols):
+    if len(symbols) == 0 and watchlist is None:
         raise click.BadArgumentUsage('Please provide at least one symbol') 
+
+    if watchlist is not None:
+        auxFile = click.open_file(watchlist, 'r')
+        symbols = auxFile.readlines()
 
     table = OutputConsoleTable()
     table.headers = [
@@ -20,7 +25,10 @@ def price(context, symbols):
     ]
     respuestas: list = []
     for symbol in symbols:
-        url = endpoints["prices"] + symbol
+        if symbol is None or symbol.strip() == '':
+            continue
+        
+        url = endpoints["prices"] + symbol.strip()
         response = requests.get(url)
         response.raise_for_status()
         

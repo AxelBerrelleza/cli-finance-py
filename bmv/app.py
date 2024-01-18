@@ -7,16 +7,7 @@ from rich.table import Table, Column
 from outputs import OutputConsoleTable
 
 load_dotenv()
-
 API_TOKEN = os.getenv('BMV_API_TOKEN')
-watchlist: list = [
-    'FIBRAMQ12',
-    'DANHOS13',
-    'FMTY14',
-    # 'FUNO11',
-    # 'MAYAB',
-    # 'ACTIGOBB',
-]
 
 endpoints: dict = {
     'prices': 'https://api.databursatil.com/v1/precios?token=' + API_TOKEN + '&bolsa=BMV&emisora_serie=',
