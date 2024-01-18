@@ -1,7 +1,7 @@
 import click
 import requests
-from app import cli, endpoints
-from outputs import OutputConsoleTable
+from bmv.app import cli, endpoints
+from bmv.outputs import OutputConsoleTable
 
 @cli.command(help='Symbols look up, exclude the serie')
 @click.argument('text', type=click.STRING)

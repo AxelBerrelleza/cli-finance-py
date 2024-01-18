@@ -4,7 +4,7 @@ import click
 from dotenv import load_dotenv
 from rich import print as rprint
 from rich.table import Table, Column
-from outputs import OutputConsoleTable
+from bmv.outputs import OutputConsoleTable
 
 load_dotenv()
 API_TOKEN = os.getenv('BMV_API_TOKEN')

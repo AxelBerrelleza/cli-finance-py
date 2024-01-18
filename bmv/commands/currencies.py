@@ -1,7 +1,7 @@
 import requests
 import click
-from app import cli, endpoints
-from outputs import OutputConsoleTable
+from bmv.app import cli, endpoints
+from bmv.outputs import OutputConsoleTable
 
 @cli.command(help='Get currency values, updates every hour')
 @click.pass_context

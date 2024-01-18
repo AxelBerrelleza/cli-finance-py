@@ -1,6 +1,6 @@
 import requests
 from rich import print as rprint
-from app import cli, endpoints
+from bmv.app import cli, endpoints
 
 @cli.command("api-credits", help='Ask for the remaining API credits')
 def api_credits():
